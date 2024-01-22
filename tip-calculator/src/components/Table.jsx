@@ -1,7 +1,7 @@
 import React from 'react';
 import { names } from '../data';
 
-function Table({ range }) {
+function Table({ range, shifts, onShiftsChange }) {
     const startDate = range[0].startDate;
     const endDate = range[0].endDate;
     // const monthOption = { month: 'short' };
@@ -54,10 +54,18 @@ function Table({ range }) {
                                     <tr key={`row-${dateKey}-${nameKey}`}>
                                         <th>{name}</th>
                                         <th>
-                                            <input type="number" defaultValue="0" />
+                                            <input
+                                                type="number"
+                                                defaultValue="0"
+                                                onChange={(e) => { onShiftsChange(date.date, name, "morningHours", e.target.value) }}
+                                            />
                                         </th>
                                         <th>
-                                            <input type="number" defaultValue="0" />
+                                            <input
+                                                type="number"
+                                                defaultValue="0"
+                                                onChange={(e) => onShiftsChange(date.date, name, "eveningHours", e.target.value)}
+                                            />
                                         </th>
                                     </tr>
                                 )}
@@ -66,7 +74,8 @@ function Table({ range }) {
                     )}
                 </table>
             </div>
-            <button>Calculate</button>
+            <input type="button" value="Calculate" />
+            {/* <button>Calculate</button> */}
         </div>
     );
 }
