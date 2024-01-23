@@ -1,7 +1,7 @@
 import React from 'react';
 import { names } from '../data';
 
-function Table({ range, onShiftsChange, onTipsChange }) {
+function Table({ range, onBackBtnClick, onCalculateBtnClick, onShiftsChange, onTipsChange }) {
     const startDate = range[0].startDate;
     const endDate = range[0].endDate;
     // const monthOption = { month: 'short' };
@@ -27,6 +27,7 @@ function Table({ range, onShiftsChange, onTipsChange }) {
 
     return (
         <div className='wrapper'>
+            <button className='button' onClick={onBackBtnClick}>Back</button>
             <div className='table-container'>
                 <table id='table'>
                     {datesArray.map((date, dateKey) =>
@@ -90,8 +91,7 @@ function Table({ range, onShiftsChange, onTipsChange }) {
                     )}
                 </table>
             </div>
-            <input type="button" value="Calculate" />
-            {/* <button>Calculate</button> */}
+            <button className='button' onClick={onCalculateBtnClick}>Calculate</button>
         </div>
     );
 }

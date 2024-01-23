@@ -21,6 +21,11 @@ code {
 
 .calendar-container {
   margin-right: 2rem;
+  
+}
+
+.button {
+  margin-right: 2rem;
 }
 
 #table {
@@ -58,7 +63,7 @@ code {
 }
 
 .table-container {
-  max-height: 700px;
+  max-height: 720px;
   overflow-y: auto;
   margin-right: 2rem;
 }

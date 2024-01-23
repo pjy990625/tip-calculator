@@ -16,10 +16,12 @@ function App() {
 
   const [shifts, setShifts] = useState([]);
   const [tips, setTips] = useState([]);
+  const [nextBtnClicked, setNextBtnClicked] = useState(false);
+  const [calculateBtnClicked, setCalculateBtnClicked] = useState(false);
 
   function handleRange(item) {
     setRange([item.selection]);
-  };
+  }
 
   function handleShifts(date, name, morningOrEvening, hours) {
     setShifts((prevShifts) => {
@@ -65,7 +67,7 @@ function App() {
 
       return [...prevShifts, newShift];
     });
-  };
+  }
 
   function handleTips(date, morningOrEvening, amount) {
     setTips((preTips) => {
@@ -111,16 +113,37 @@ function App() {
     });
   }
 
-  console.log(shifts);
-  console.log(tips);
+  function handleNextBtnClick() {
+    setNextBtnClicked(true);
+  }
+
+  function handleBackBtnClick() {
+    setNextBtnClicked(false);
+  }
+
+  function handleCalculateBtnClick() {
+    setCalculateBtnClicked(true);
+  }
 
   return (
     <div className="App">
       <Header />
       <div className='wrapper'>
-        <Calendar range={range} onRangeClick={handleRange} />
-        <Table range={range} onShiftsChange={handleShifts} onTipsChange={handleTips} />
-        <Results />
+        {!nextBtnClicked ?
+          <Calendar
+            range={range}
+            onRangeClick={handleRange}
+            onNextClick={handleNextBtnClick}
+          /> :
+          <Table
+            range={range}
+            onBackBtnClick={handleBackBtnClick}
+            onCalculateBtnClick={handleCalculateBtnClick}
+            onShiftsChange={handleShifts}
+            onTipsChange={handleTips}
+          />
+        }
+        {calculateBtnClicked && <Results />}
       </div>
     </div>
   );
