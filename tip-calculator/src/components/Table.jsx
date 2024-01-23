@@ -1,13 +1,10 @@
 import React from 'react';
 import { names } from '../data';
 
-function Table({ range, onBackBtnClick, onCalculateBtnClick, onShiftsChange, onTipsChange }) {
-    const startDate = range[0].startDate;
-    const endDate = range[0].endDate;
-    // const monthOption = { month: 'short' };
+function Table({ range, onBackBtnClick, onCalculateBtnClick, onTipsChange, onShiftsChange }) {
+    const { startDate, endDate } = range[0];
     const dateOption = { day: 'numeric' };
     const dayOption = { weekday: "short" };
-    // const month = startDate.toLocaleDateString('en-US', monthOption);
     const startIndex = startDate.toLocaleDateString('en-US', dateOption);
     const endIndex = endDate.toLocaleDateString('en-US', dateOption);
 
