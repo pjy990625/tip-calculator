@@ -15,14 +15,7 @@ function App() {
   ]);
 
   const [shifts, setShifts] = useState([]);
-
-  const [tips, setTips] = useState([
-    {
-      date: new Date(),
-      morningTip: 0,
-      eveningTip: 0,
-    }
-  ]);
+  const [tips, setTips] = useState([]);
 
   function handleRange(item) {
     setRange([item.selection]);
@@ -50,7 +43,7 @@ function App() {
       let newShift = {};
 
       switch (morningOrEvening) {
-        case "morningHours":
+        case "morningTip":
           newShift = {
             date: date,
             name: name,
@@ -58,7 +51,7 @@ function App() {
             eveningHours: 0,
           }
           break;
-        case "eveningHours":
+        case "eveningTip":
           newShift = {
             date: date,
             name: name,
@@ -75,17 +68,58 @@ function App() {
   };
 
   function handleTips(date, morningOrEvening, amount) {
-    
+    setTips((preTips) => {
+      // If tip already exists, update the corresponding amount
+      const existingTipIndex =
+        preTips.findIndex((tip) => tip.date === date);
+
+      if (existingTipIndex !== -1) {
+        return preTips.map((tip, index) => {
+          if (index === existingTipIndex) {
+            return {
+              ...tip,
+              [morningOrEvening]: +amount,
+            };
+          } else {
+            return tip;
+          }
+        });
+      }
+      // If tip does not exist, add new tip
+      let newTip = {};
+
+      switch (morningOrEvening) {
+        case "morningTip":
+          newTip = {
+            date: date,
+            morningTip: +amount,
+            eveningTip: 0,
+          }
+          break;
+        case "eveningTip":
+          newTip = {
+            date: date,
+            morningTip: 0,
+            eveningTip: +amount,
+          }
+          break;
+        default:
+          break;
+      }
+
+      return [...preTips, newTip];
+    });
   }
 
-  console.log(shifts)
+  console.log(shifts);
+  console.log(tips);
 
   return (
     <div className="App">
       <Header />
       <div className='wrapper'>
         <Calendar range={range} onRangeClick={handleRange} />
-        <Table range={range} shifts={shifts} onShiftsChange={handleShifts} />
+        <Table range={range} onShiftsChange={handleShifts} onTipsChange={handleTips} />
         <Results />
       </div>
     </div>

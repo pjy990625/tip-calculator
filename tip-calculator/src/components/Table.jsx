@@ -1,7 +1,7 @@
 import React from 'react';
 import { names } from '../data';
 
-function Table({ range, shifts, onShiftsChange }) {
+function Table({ range, onShiftsChange, onTipsChange }) {
     const startDate = range[0].startDate;
     const endDate = range[0].endDate;
     // const monthOption = { month: 'short' };
@@ -36,11 +36,23 @@ function Table({ range, shifts, onShiftsChange }) {
                                     <th>{date.day} {date.date}</th>
                                     <th>
                                         <label>Morning Tip</label>
-                                        <input type="number" id="morningTipInput" defaultValue="0"></input>
+                                        <input
+                                            type="number"
+                                            defaultValue="0"
+                                            onChange={(e) =>
+                                                onTipsChange(date.date, "morningTip", e.target.value)
+                                            }
+                                        />
                                     </th>
                                     <th>
                                         <label>Evening Tip</label>
-                                        <input type="number" id="eveningTipInput" defaultValue="0"></input>
+                                        <input
+                                            type="number"
+                                            defaultValue="0"
+                                            onChange={(e) =>
+                                                onTipsChange(date.date, "eveningTip", e.target.value)
+                                            }
+                                        />
                                     </th>
                                 </tr>
                                 <tr>
@@ -57,14 +69,18 @@ function Table({ range, shifts, onShiftsChange }) {
                                             <input
                                                 type="number"
                                                 defaultValue="0"
-                                                onChange={(e) => { onShiftsChange(date.date, name, "morningHours", e.target.value) }}
+                                                onChange={(e) =>
+                                                    onShiftsChange(date.date, name, "morningHours", e.target.value)
+                                                }
                                             />
                                         </th>
                                         <th>
                                             <input
                                                 type="number"
                                                 defaultValue="0"
-                                                onChange={(e) => onShiftsChange(date.date, name, "eveningHours", e.target.value)}
+                                                onChange={(e) =>
+                                                    onShiftsChange(date.date, name, "eveningHours", e.target.value)
+                                                }
                                             />
                                         </th>
                                     </tr>
