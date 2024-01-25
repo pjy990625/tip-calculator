@@ -115,8 +115,7 @@ function App() {
 
   function handleResults(date, name, morningTip, eveningTip, totalHours) {
     setResults((prevResult) => {
-      let result = {};
-      result = {
+      let result = {
         date: date,
         name: name,
         morningTip: morningTip,
@@ -137,7 +136,7 @@ function App() {
       let shiftsByDate = shifts.filter((shift) => shift.date === tip.date);
       let totalMorningHours = 0;
       let totalEveningHours = 0;
-      
+
       shiftsByDate.forEach((shift) => {
         totalMorningHours = totalMorningHours + shift.morningHours;
         totalEveningHours = totalEveningHours + shift.eveningHours;
@@ -186,32 +185,30 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <div className='wrapper'>
-        {!nextBtnClicked &&
-          <Calendar
-            range={range}
-            onRangeClick={handleRange}
-            onNextClick={handleNextBtnClick}
-          />
-        }
-        {(nextBtnClicked && !calculateBtnClicked) &&
-          <Table
-            range={range}
-            onBackBtnClick={handleBackToCalendarBtnClick}
-            onCalculateBtnClick={handleCalculateBtnClick}
-            onTipsChange={handleTips}
-            onShiftsChange={handleShifts}
-            onResults={handleResults}
-          />
-        }
-        {calculateBtnClicked &&
-          <Results
-            range={range}
-            results={results}
-            onStartAgainBtnClick={handleStartAgainBtnClick}
-          />
-        }
-      </div>
+      {!nextBtnClicked &&
+        <Calendar
+          range={range}
+          onRangeClick={handleRange}
+          onNextClick={handleNextBtnClick}
+        />
+      }
+      {(nextBtnClicked && !calculateBtnClicked) &&
+        <Table
+          range={range}
+          onBackBtnClick={handleBackToCalendarBtnClick}
+          onCalculateBtnClick={handleCalculateBtnClick}
+          onTipsChange={handleTips}
+          onShiftsChange={handleShifts}
+          onResults={handleResults}
+        />
+      }
+      {calculateBtnClicked &&
+        <Results
+          range={range}
+          results={results}
+          onStartAgainBtnClick={handleStartAgainBtnClick}
+        />
+      }
     </div>
   );
 }

@@ -26,7 +26,7 @@ function Table({ range, onBackBtnClick, onCalculateBtnClick, onTipsChange, onShi
         <div className='wrapper'>
             <button className='button' onClick={onBackBtnClick}>Back</button>
             <div className='table-container'>
-                <table id='table'>
+                <table className='table'>
                     {datesArray.map((date, dateKey) =>
                         <React.Fragment key={dateKey} >
                             <thead>
@@ -67,18 +67,20 @@ function Table({ range, onBackBtnClick, onCalculateBtnClick, onTipsChange, onShi
                                             <input
                                                 type="number"
                                                 defaultValue="0"
-                                                onChange={(e) =>
-                                                    onShiftsChange(date.date, name, "morningHours", e.target.value)
-                                                }
+                                                onChange={(e) => {
+                                                    if (+(e.target.value) > 0)
+                                                        onShiftsChange(date.date, name, "morningHours", e.target.value)
+                                                }}
                                             />
                                         </th>
                                         <th>
                                             <input
                                                 type="number"
                                                 defaultValue="0"
-                                                onChange={(e) =>
-                                                    onShiftsChange(date.date, name, "eveningHours", e.target.value)
-                                                }
+                                                onChange={(e) => {
+                                                    if (+(e.target.value) > 0)
+                                                        onShiftsChange(date.date, name, "eveningHours", e.target.value)
+                                                }}
                                             />
                                         </th>
                                     </tr>

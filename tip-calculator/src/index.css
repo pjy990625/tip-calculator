@@ -28,34 +28,34 @@ code {
   margin-right: 2rem;
 }
 
-#table {
+.table {
   font-family: 'Roboto Condensed', sans-serif;
   margin: auto;
   border-collapse: collapse;
 }
 
-#table td,
-#table th {
+.table td,
+.table th {
   border: 1px solid #ddd;
   padding: 0.5rem;
 }
 
-#table thead {
+.table thead {
   font-size: 0.7rem;
   color: #83e6c0;
   text-transform: uppercase;
 }
 
-#table tbody {
+.table tbody {
   font-size: 0.85rem;
   color: #c2e9e0;
 }
 
-#table label {
+.table label {
   display: block;
 }
 
-#table input {
+.table input {
   padding: 0.5rem;
   border: 1px solid #76c0ae;
   background-color: transparent;
@@ -66,4 +66,8 @@ code {
   max-height: 720px;
   overflow-y: auto;
   margin-right: 2rem;
+}
+
+.results-container {
+  display: flex;
 }
