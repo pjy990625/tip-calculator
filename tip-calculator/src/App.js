@@ -185,30 +185,30 @@ function App() {
   return (
     <div className="App">
       <Header />
-      {!nextBtnClicked &&
-        <Calendar
-          range={range}
-          onRangeClick={handleRange}
-          onNextClick={handleNextBtnClick}
-        />
-      }
-      {(nextBtnClicked && !calculateBtnClicked) &&
-        <Table
-          range={range}
-          onBackBtnClick={handleBackToCalendarBtnClick}
-          onCalculateBtnClick={handleCalculateBtnClick}
-          onTipsChange={handleTips}
-          onShiftsChange={handleShifts}
-          onResults={handleResults}
-        />
-      }
-      {calculateBtnClicked &&
-        <Results
-          range={range}
-          results={results}
-          onStartAgainBtnClick={handleStartAgainBtnClick}
-        />
-      }
+        {!nextBtnClicked &&
+          <Calendar
+            range={range}
+            onRangeClick={handleRange}
+            onNextClick={handleNextBtnClick}
+          />
+        }
+        {(nextBtnClicked && !calculateBtnClicked) &&
+          <Table
+            range={range}
+            onBackBtnClick={handleBackToCalendarBtnClick}
+            onCalculateBtnClick={handleCalculateBtnClick}
+            onTipsChange={handleTips}
+            onShiftsChange={handleShifts}
+            onResults={handleResults}
+          />
+        }
+        {calculateBtnClicked &&
+          <Results
+            range={range}
+            results={results}
+            onStartAgainBtnClick={handleStartAgainBtnClick}
+          />
+        }
     </div>
   );
 }

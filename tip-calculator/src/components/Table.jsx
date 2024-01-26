@@ -24,16 +24,19 @@ function Table({ range, onBackBtnClick, onCalculateBtnClick, onTipsChange, onShi
 
     return (
         <div className='wrapper'>
-            <button className='button' onClick={onBackBtnClick}>Back</button>
+            <button className='button left' onClick={onBackBtnClick}>Back</button>
             <div className='table-container'>
                 <table className='table'>
                     {datesArray.map((date, dateKey) =>
                         <React.Fragment key={dateKey} >
                             <thead>
+                                <tr className='table-highlight'>
+                                    <th rowSpan={2}>{date.day} {date.date}</th>
+                                    <th>Morning Tip</th>
+                                    <th>Evening Tip</th>
+                                </tr>
                                 <tr>
-                                    <th>{date.day} {date.date}</th>
                                     <th>
-                                        <label>Morning Tip</label>
                                         <input
                                             type="number"
                                             defaultValue="0"
@@ -43,7 +46,6 @@ function Table({ range, onBackBtnClick, onCalculateBtnClick, onTipsChange, onShi
                                         />
                                     </th>
                                     <th>
-                                        <label>Evening Tip</label>
                                         <input
                                             type="number"
                                             defaultValue="0"
@@ -53,7 +55,7 @@ function Table({ range, onBackBtnClick, onCalculateBtnClick, onTipsChange, onShi
                                         />
                                     </th>
                                 </tr>
-                                <tr>
+                                <tr className='table-highlight'>
                                     <th>Name</th>
                                     <th>Hours - Morning</th>
                                     <th>Hours - Evening</th>

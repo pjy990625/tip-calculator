@@ -5,7 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: slategray;
+  background-color: #6CA6C1;
+  color: #343434;
 }
 
 code {
@@ -21,34 +22,38 @@ code {
 
 .calendar-container {
   margin-right: 2rem;
-  
 }
 
-.button {
+.table-container {
   margin-right: 2rem;
+  max-height: 720px;
+  overflow-y: auto;
 }
 
 .table {
-  font-family: 'Roboto Condensed', sans-serif;
   margin: auto;
   border-collapse: collapse;
+  background-color: #fff;
+  color: #343434;
+}
+
+.table-highlight {
+  background-color: #FFE66D;
 }
 
 .table td,
 .table th {
-  border: 1px solid #ddd;
+  border: 2px solid #343434;
   padding: 0.5rem;
 }
 
 .table thead {
   font-size: 0.7rem;
-  color: #83e6c0;
   text-transform: uppercase;
 }
 
 .table tbody {
   font-size: 0.85rem;
-  color: #c2e9e0;
 }
 
 .table label {
@@ -57,17 +62,45 @@ code {
 
 .table input {
   padding: 0.5rem;
-  border: 1px solid #76c0ae;
+  border: transparent;
   background-color: transparent;
-  color: #c2e9e0;
-}
-
-.table-container {
-  max-height: 720px;
-  overflow-y: auto;
-  margin-right: 2rem;
 }
 
 .results-container {
   display: flex;
+}
+
+.button {
+  background-color: #fff;
+  border: 2px solid #343434;
+  border-radius: 30px;
+  box-shadow: #343434 4px 4px 0 0;
+  color: #343434;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 0 18px;
+  line-height: 50px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button:active {
+  box-shadow: #343434 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
+.left {
+  margin-right: 2rem;
+}
+
+@media (min-width: 768px) {
+  .button {
+    min-width: 120px;
+    padding: 0 25px;
+  }
 }

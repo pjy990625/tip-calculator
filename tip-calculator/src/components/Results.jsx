@@ -43,7 +43,7 @@ function Results({ range, results, onStartAgainBtnClick }) {
 
     return (
         <div className="wrapper">
-            <button className='button' onClick={onStartAgainBtnClick}>Start again</button>
+            <button className='button left' onClick={onStartAgainBtnClick}>Start again</button>
             <div className="results-container">
                 <table className="table">
                     {results.map((result, key) => {
@@ -55,19 +55,19 @@ function Results({ range, results, onStartAgainBtnClick }) {
                             <React.Fragment key={key} >
                                 {renderThead &&
                                     <thead key={`thead-${currentDate}`}>
-                                        <tr>
-                                            <td>{monthNum}/{result.date}</td>
-                                            <td>Morning Tip</td>
-                                            <td>Evening Tip</td>
-                                            <td>Total Tip</td>
+                                        <tr className='table-highlight'>
+                                            <th>{monthNum}/{result.date}</th>
+                                            <th>Morning Tip</th>
+                                            <th>Evening Tip</th>
+                                            <th>Total Tip</th>
                                         </tr>
                                     </thead>}
                                 <tbody key={`tbody-${currentDate}`}>
                                     <tr>
-                                        <td>{result.name}</td>
-                                        <td>{`${Math.trunc(result.morningTip)}`}</td>
-                                        <td>{`${Math.trunc(result.eveningTip)}`}</td>
-                                        <td>{`${Math.trunc(result.morningTip) + Math.trunc(result.eveningTip)}`}</td>
+                                        <th>{result.name}</th>
+                                        <th>{`${Math.trunc(result.morningTip)}`}</th>
+                                        <th>{`${Math.trunc(result.eveningTip)}`}</th>
+                                        <th>{`${Math.trunc(result.morningTip) + Math.trunc(result.eveningTip)}`}</th>
                                     </tr>
                                 </tbody>
                             </React.Fragment>
