@@ -102,7 +102,7 @@ function App() {
       const shiftsByDate = shifts.filter((shift) =>
         shift.date === tip.date &&
         (shift.morningHours !== 0 ||
-        shift.eveningHours !== 0)
+          shift.eveningHours !== 0)
       );
       const morningRate = calculateRate(tip, shiftsByDate, 'morning');
       const eveningRate = calculateRate(tip, shiftsByDate, 'evening');
@@ -119,6 +119,35 @@ function App() {
     });
   }
 
+  // Check if any input fields for tips or hours are empty
+  function checkIfEmpty(tips, shifts) {
+    if (tips.length === 0) {
+      alert("Please enter proper tips!");
+      return true;
+    }
+
+    return tips.some((tip) => {
+      const shiftsByDate = shifts.filter(
+        (shift) => shift.date === tip.date);
+      const totalMorningHours = shiftsByDate.reduce(
+        (hours, shift) => hours + shift.morningHours, 0);
+      const totalEveningHours = shiftsByDate.reduce(
+        (hours, shift) => hours + shift.eveningHours, 0);
+
+      if ((tip.morningTip > 0 && totalMorningHours === 0) ||
+        (tip.eveningTip > 0 && totalEveningHours === 0)) {
+        alert("Please enter proper hours!");
+        return true;
+      } else if ((tip.morningTip === 0 && totalEveningHours > 0) ||
+        (tip.eveningTip === 0 && totalEveningHours > 0)) {
+        alert("Please enter proper tips!");
+        return true;
+      }
+      return false;
+    });
+  }
+
+
   function handleNextBtnClick() {
     setNextBtnClicked(true);
   }
@@ -128,8 +157,12 @@ function App() {
   }
 
   function handleCalculateBtnClick() {
-    calculateTips(tips, shifts);
-    setCalculateBtnClicked(true);
+    if (checkIfEmpty(tips, shifts)) {
+      return
+    } else {
+      calculateTips(tips, shifts);
+      setCalculateBtnClicked(true);
+    }
   }
 
   function handleBackToTableBtnClick() {
