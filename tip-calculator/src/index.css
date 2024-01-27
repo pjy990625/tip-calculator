@@ -93,6 +93,10 @@ code {
 
 .results-container {
   display: flex;
+  margin-right: 2rem;
+  max-height: 720px;
+  overflow-y: auto;
+  margin: 0;
 }
 
 .results-container table th {

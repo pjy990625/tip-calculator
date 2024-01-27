@@ -42,13 +42,14 @@ function Results({ range, results, onBackBtnClick, onRestartBtnClick }) {
     }
 
     const aggregatedResults = aggregateResults(results);
+    const sortedResults = [...results].sort((a, b) => a.date - b.date);
 
     return (
         <div className="wrapper">
             <button className='button' onClick={onBackBtnClick}>Back</button>
             <div className="results-container">
                 <table className="table">
-                    {results.map((result, key) => {
+                    {sortedResults.map((result, key) => {
                         const currentDate = `${result.date}`;
                         const renderThead = currentDate !== prevDate;
                         prevDate = currentDate;

@@ -60,7 +60,7 @@ function App() {
         date: date,
         name: name,
         morningHours: morningOrEvening === "morningHours" ? +hours : 0,
-        eveningHours: morningOrEvening === "eveningHours" ? 0 : +hours,
+        eveningHours: morningOrEvening === "eveningHours" ? +hours : 0,
       };
 
       return [...prevShifts, newShift];
@@ -84,7 +84,8 @@ function App() {
   function calculateTips(tips, shifts) {
     function calculateRate(tip, shifts, rateType) {
       const tipAmount = tip[`${rateType}Tip`] * 0.6;
-      const totalHours = shifts.reduce((total, shift) => total + shift[`${rateType}Hours`], 0);
+      const totalHours = shifts.reduce((total, shift) =>
+        total + shift[`${rateType}Hours`], 0);
 
       return tipAmount / totalHours || 0;
     }
@@ -98,7 +99,11 @@ function App() {
     }
 
     tips.forEach((tip) => {
-      const shiftsByDate = shifts.filter((shift) => shift.date === tip.date);
+      const shiftsByDate = shifts.filter((shift) =>
+        shift.date === tip.date &&
+        (shift.morningHours !== 0 ||
+        shift.eveningHours !== 0)
+      );
       const morningRate = calculateRate(tip, shiftsByDate, 'morning');
       const eveningRate = calculateRate(tip, shiftsByDate, 'evening');
 

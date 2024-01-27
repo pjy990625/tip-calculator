@@ -82,7 +82,9 @@ function Table({ range, tips, shifts, onBackBtnClick, onCalculateBtnClick, onTip
                                         <th>
                                             <input
                                                 type="number"
-                                                value={shifts.find((shift) => shift.date === date.date && shift.name === name)?.morningHours || 0}
+                                                value={shifts.find(
+                                                    (shift) => shift.date === date.date && shift.name === name)?.morningHours || 0
+                                                }
                                                 onChange={(e) => {
                                                     if (+(e.target.value) >= 0)
                                                         onShiftsChange(date.date, name, "morningHours", e.target.value)
@@ -98,7 +100,9 @@ function Table({ range, tips, shifts, onBackBtnClick, onCalculateBtnClick, onTip
                                         <th>
                                             <input
                                                 type="number"
-                                                value={shifts.find((shift) => shift.date === date.date && shift.name === name)?.eveningHours || 0}
+                                                value={shifts.find(
+                                                    (shift) => shift.date === date.date && shift.name === name)?.eveningHours || 0
+                                                }
                                                 onChange={(e) => {
                                                     if (+(e.target.value) >= 0)
                                                         onShiftsChange(date.date, name, "eveningHours", e.target.value)

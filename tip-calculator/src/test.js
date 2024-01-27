@@ -1,68 +1,72 @@
 export const test_results = [
     {
-        "date": 1,
+        "date": 26,
         "name": "Cindy",
-        "morningHours": 3,
-        "eveningHours": 3
+        "morningTip": 44,
+        "eveningTip": 0,
+        "totalHours": 3
     },
     {
-        "date": 1,
+        "date": 26,
         "name": "Dahye",
-        "morningHours": 3,
-        "eveningHours": 3
+        "morningTip": 44,
+        "eveningTip": 0,
+        "totalHours": 3
     },
     {
-        "date": 1,
+        "date": 26,
         "name": "Grace",
-        "morningHours": 0,
-        "eveningHours": 4
+        "morningTip": 44,
+        "eveningTip": 133,
+        "totalHours": 8
     },
     {
-        "date": 2,
-        "name": "Irene",
-        "morningHours": 3,
-        "eveningHours": 4
-    },
-    {
-        "date": 2,
+        "date": 26,
         "name": "Juyeong",
-        "morningHours": 3.5,
-        "eveningHours": 4
+        "morningTip": 0,
+        "eveningTip": 133,
+        "totalHours": 5
     },
     {
-        "date": 2,
+        "date": 25,
+        "name": "Irene",
+        "morningTip": 88,
+        "eveningTip": 0,
+        "totalHours": 3
+    },
+    {
+        "date": 25,
+        "name": "Juyeong",
+        "morningTip": 88,
+        "eveningTip": 0,
+        "totalHours": 3
+    },
+    {
+        "date": 25,
         "name": "Masumi",
-        "morningHours": 3.25,
-        "eveningHours": 4
+        "morningTip": 88,
+        "eveningTip": 166,
+        "totalHours": 8
     },
     {
-        "date": 2,
+        "date": 25,
         "name": "Michelle",
-        "morningHours": 0,
-        "eveningHours": 4
+        "morningTip": 0,
+        "eveningTip": 166,
+        "totalHours": 5
     },
     {
-        "date": 3,
-        "name": "Mihee",
-        "morningHours": 3,
-        "eveningHours": 3.5
-    },
-    {
-        "date": 3,
-        "name": "Noriko",
-        "morningHours": 3,
-        "eveningHours": 4
-    },
-    {
-        "date": 3,
+        "date": 24,
         "name": "Sharon",
-        "morningHours": 3,
-        "eveningHours": 4
+        "morningTip": 142,
+        "eveningTip": 0,
+        "totalHours": 3
     },
     {
-        "date": 3,
+        "date": 24,
         "name": "Sophia",
-        "morningHours": 0,
-        "eveningHours": 4
+        "morningTip": 190,
+        "eveningTip": 266,
+        "totalHours": 9
     }
 ]
