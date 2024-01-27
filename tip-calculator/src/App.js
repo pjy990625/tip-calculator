@@ -1,7 +1,6 @@
 import './App.css';
 import { useState } from 'react';
-import Header from './components/Header';
-import Calendar from './components/Calendar';
+import Landing from './components/Landing';
 import Table from './components/Table';
 import Results from './components/Results';
 
@@ -26,42 +25,19 @@ function App() {
   function handleTips(date, morningOrEvening, amount) {
     setTips((preTips) => {
       // If tip already exists, update the corresponding amount
-      const existingTipIndex =
-        preTips.findIndex((tip) => tip.date === date);
+      const existingTipIndex = preTips.findIndex((tip) => tip.date === date);
 
       if (existingTipIndex !== -1) {
-        return preTips.map((tip, index) => {
-          if (index === existingTipIndex) {
-            return {
-              ...tip,
-              [morningOrEvening]: +amount,
-            };
-          } else {
-            return tip;
-          }
-        });
+        return preTips.map((tip, index) =>
+          index === existingTipIndex ? { ...tip, [morningOrEvening]: +amount } : tip
+        );
       }
       // If tip does not exist, add new tip
-      let newTip = {};
-
-      switch (morningOrEvening) {
-        case "morningTip":
-          newTip = {
-            date: date,
-            morningTip: +amount,
-            eveningTip: 0,
-          }
-          break;
-        case "eveningTip":
-          newTip = {
-            date: date,
-            morningTip: 0,
-            eveningTip: +amount,
-          }
-          break;
-        default:
-          break;
-      }
+      let newTip = {
+        date: date,
+        morningTip: morningOrEvening === "morningTip" ? +amount : 0,
+        eveningTip: morningOrEvening === "eveningTip" ? +amount : 0,
+      };
 
       return [...preTips, newTip];
     });
@@ -69,45 +45,23 @@ function App() {
 
   function handleShifts(date, name, morningOrEvening, hours) {
     setShifts((prevShifts) => {
-      // If the shift already exists, update the corresponding hours
+      // If shift already exists, update the corresponding hours
       const existingShiftIndex =
         prevShifts.findIndex((shift) => shift.date === date && shift.name === name);
 
       if (existingShiftIndex !== -1) {
-        return prevShifts.map((shift, index) => {
-          if (index === existingShiftIndex) {
-            return {
-              ...shift,
-              [morningOrEvening]: +hours,
-            };
-          } else {
-            return shift;
-          }
-        });
+        return prevShifts.map((shift, index) =>
+          index === existingShiftIndex ? { ...shift, [morningOrEvening]: +hours } : shift
+        );
       }
-      // If the shift does not exist, add a new shift
-      let newShift = {};
 
-      switch (morningOrEvening) {
-        case "morningHours":
-          newShift = {
-            date: date,
-            name: name,
-            morningHours: +hours,
-            eveningHours: 0,
-          }
-          break;
-        case "eveningHours":
-          newShift = {
-            date: date,
-            name: name,
-            morningHours: 0,
-            eveningHours: +hours,
-          }
-          break;
-        default:
-          break;
-      }
+      // If the shift does not exist, add a new shift
+      let newShift = {
+        date: date,
+        name: name,
+        morningHours: morningOrEvening === "morningHours" ? +hours : 0,
+        eveningHours: morningOrEvening === "eveningHours" ? 0 : +hours,
+      };
 
       return [...prevShifts, newShift];
     });
@@ -120,7 +74,7 @@ function App() {
         name: name,
         morningTip: morningTip,
         eveningTip: eveningTip,
-        totalHours: totalHours
+        totalHours: totalHours,
       }
 
       return [...prevResult, result];
@@ -128,31 +82,36 @@ function App() {
   }
 
   function calculateTips(tips, shifts) {
+    function calculateRate(tip, shifts, rateType) {
+      const tipAmount = tip[`${rateType}Tip`] * 0.6;
+      const totalHours = shifts.reduce((total, shift) => total + shift[`${rateType}Hours`], 0);
+
+      return tipAmount / totalHours || 0;
+    }
+
+    function processShift(shift, morningRate, eveningRate) {
+      const morningTip = Math.trunc(morningRate * shift.morningHours);
+      const eveningTip = Math.trunc(eveningRate * shift.eveningHours);
+      const totalHours = shift.morningHours + shift.eveningHours;
+
+      handleResults(shift.date, shift.name, morningTip, eveningTip, totalHours);
+    }
+
     tips.forEach((tip) => {
-      // Divide tip by percentage
-      const morningTip = tip.morningTip * 0.6;
-      const eveningTip = tip.eveningTip * 0.6;
-      // Calculate total hours for a corresponding date by time
-      let shiftsByDate = shifts.filter((shift) => shift.date === tip.date);
-      let totalMorningHours = 0;
-      let totalEveningHours = 0;
+      const shiftsByDate = shifts.filter((shift) => shift.date === tip.date);
+      const morningRate = calculateRate(tip, shiftsByDate, 'morning');
+      const eveningRate = calculateRate(tip, shiftsByDate, 'evening');
 
       shiftsByDate.forEach((shift) => {
-        totalMorningHours = totalMorningHours + shift.morningHours;
-        totalEveningHours = totalEveningHours + shift.eveningHours;
+        if (morningRate === 0) {
+          processShift(shift, 0, eveningRate);
+        } else if (eveningRate === 0) {
+          processShift(shift, morningRate, 0);
+        } else {
+          processShift(shift, morningRate, eveningRate);
+        }
       });
-      // Calculate how much money in dollars per hour
-      const morningRate = morningTip / totalMorningHours;
-      const eveningRate = eveningTip / totalEveningHours;
-      // Store results in the state
-      shiftsByDate.forEach((shift) => {
-        const morningTip = morningRate * shift.morningHours;
-        const eveningTip = eveningRate * shift.eveningHours;
-        const totalHours = shift.morningHours + shift.eveningHours;
-
-        handleResults(shift.date, shift.name, morningTip, eveningTip, totalHours);
-      });
-    })
+    });
   }
 
   function handleNextBtnClick() {
@@ -168,12 +127,20 @@ function App() {
     setCalculateBtnClicked(true);
   }
 
-  function handleStartAgainBtnClick() {
+  function handleBackToTableBtnClick() {
+    setResults([]);
+    setCalculateBtnClicked(false);
+  }
+
+  function handleRestartBtnClick() {
     setRange([{
       startDate: new Date(),
       endDate: new Date(),
       key: 'selection'
     }]);
+    setTips([]);
+    setShifts([]);
+    setResults([]);
     setNextBtnClicked(false);
     setCalculateBtnClicked(false);
   }
@@ -184,31 +151,33 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
-        {!nextBtnClicked &&
-          <Calendar
-            range={range}
-            onRangeClick={handleRange}
-            onNextClick={handleNextBtnClick}
-          />
-        }
-        {(nextBtnClicked && !calculateBtnClicked) &&
-          <Table
-            range={range}
-            onBackBtnClick={handleBackToCalendarBtnClick}
-            onCalculateBtnClick={handleCalculateBtnClick}
-            onTipsChange={handleTips}
-            onShiftsChange={handleShifts}
-            onResults={handleResults}
-          />
-        }
-        {calculateBtnClicked &&
-          <Results
-            range={range}
-            results={results}
-            onStartAgainBtnClick={handleStartAgainBtnClick}
-          />
-        }
+      {!nextBtnClicked &&
+        <Landing
+          range={range}
+          onRangeClick={handleRange}
+          onNextClick={handleNextBtnClick}
+        />
+      }
+      {(nextBtnClicked && !calculateBtnClicked) &&
+        <Table
+          range={range}
+          tips={tips}
+          shifts={shifts}
+          onBackBtnClick={handleBackToCalendarBtnClick}
+          onCalculateBtnClick={handleCalculateBtnClick}
+          onTipsChange={handleTips}
+          onShiftsChange={handleShifts}
+          onResults={handleResults}
+        />
+      }
+      {calculateBtnClicked &&
+        <Results
+          range={range}
+          results={results}
+          onBackBtnClick={handleBackToTableBtnClick}
+          onRestartBtnClick={handleRestartBtnClick}
+        />
+      }
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Results({ range, results, onStartAgainBtnClick }) {
+function Results({ range, results, onBackBtnClick, onRestartBtnClick }) {
     const { startDate, endDate } = range[0];
     const monthNumOption = { month: 'numeric' };
     const monthLongOption = { month: 'long' };
@@ -12,6 +12,8 @@ function Results({ range, results, onStartAgainBtnClick }) {
 
     // Repeat the <thead> section only when the date changes
     let prevDate = null;
+    // Hide result div if there are no results
+    const hasResults = results.length > 0;
 
     function aggregateResults(results) {
         // Create an empty object to store the aggregated data
@@ -43,7 +45,7 @@ function Results({ range, results, onStartAgainBtnClick }) {
 
     return (
         <div className="wrapper">
-            <button className='button left' onClick={onStartAgainBtnClick}>Start again</button>
+            <button className='button' onClick={onBackBtnClick}>Back</button>
             <div className="results-container">
                 <table className="table">
                     {results.map((result, key) => {
@@ -65,25 +67,30 @@ function Results({ range, results, onStartAgainBtnClick }) {
                                 <tbody key={`tbody-${currentDate}`}>
                                     <tr>
                                         <th>{result.name}</th>
-                                        <th>{`${Math.trunc(result.morningTip)}`}</th>
-                                        <th>{`${Math.trunc(result.eveningTip)}`}</th>
-                                        <th>{`${Math.trunc(result.morningTip) + Math.trunc(result.eveningTip)}`}</th>
+                                        <th className='number'>{result.morningTip}</th>
+                                        <th className='number'>{result.eveningTip}</th>
+                                        <th className='number'>{result.morningTip + result.eveningTip}</th>
                                     </tr>
                                 </tbody>
                             </React.Fragment>
                         )
                     })}
                 </table>
-                <div>
-                    From {monthLong} {formattedStartDate} to {formattedEndDate},
-                    {aggregatedResults.map((result) => {
-                        return (
-                            <h4 key={`h4-${result.name}`}>{result.name} worked for {result.totalHours} hours and earned ${result.totalTips}</h4>
-                        )
-                    })}
-
-                </div>
+                {hasResults ?
+                    <div className='summary'>
+                        <h3>Summary</h3>
+                        From {monthLong} {formattedStartDate} to {formattedEndDate},    
+                        {aggregatedResults.map((result) => {
+                            return (
+                                <p key={`h4-${result.name}`}>
+                                    {result.name} worked for {result.totalHours} hours and earned ${result.totalTips}
+                                </p>
+                            )
+                        })}
+                    </div> : <h3>There is nothing to display...</h3>
+                }
             </div>
+            <button className='button' onClick={onRestartBtnClick}>Restart</button>
         </div >
     );
 }

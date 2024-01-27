@@ -1,7 +1,7 @@
 function Header() {
     return ( 
-        <header>
-            <h1>Tip Calculator</h1>
+        <header className="header">
+            Tip Calculator
         </header>
      );
 }
