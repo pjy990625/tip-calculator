@@ -23,7 +23,7 @@ function Table({ range, tips, shifts, onBackBtnClick, onCalculateBtnClick, onTip
     }
 
     return (
-        <div className='wrapper'>
+        <div className='wrapper mobile-wrapper'>
             <button className='button' onClick={onBackBtnClick}>Back</button>
             <div className='table-container'>
                 <table className='table'>
