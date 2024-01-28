@@ -168,6 +168,7 @@ code {
 
   .wrapper {
     display: block;
+    width: 100%;
   }
 
   .mobile-wrapper {
@@ -182,6 +183,11 @@ code {
 
   .table input {
     padding: 0.5rem;
+  }
+
+  .results-container {
+    display: block;
+    min-width: fit-content;
   }
 
   .results-container table th {
