@@ -123,7 +123,6 @@ function App() {
   function checkIfEmpty(tips, shifts) {
     if (!Array.isArray(tips) || tips.length === 0) {
       alert("Please enter valid tips!");
-
       return true;
     }
 

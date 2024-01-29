@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { usePDF } from 'react-to-pdf';
 import Summary from './Summary';
 
 function Results({ range, results, onBackBtnClick, onRestartBtnClick }) {
@@ -7,6 +8,8 @@ function Results({ range, results, onBackBtnClick, onRestartBtnClick }) {
     const monthNumOption = { month: 'numeric' };
     const monthNum = startDate.toLocaleDateString('en-US', monthNumOption);
 
+    // Export table
+    const { toPDF, targetRef } = usePDF({ filename: 'tips.pdf' });
     // Sort results by date
     const sortedResults = [...results].sort((a, b) => a.date - b.date);
     // Repeat the <thead> section only when the date changes
@@ -20,10 +23,10 @@ function Results({ range, results, onBackBtnClick, onRestartBtnClick }) {
         <div className='mobile-wrapper'>
             <div className="wrapper">
                 <button className='button' onClick={onBackBtnClick}>Back</button>
-                <div className="results-container">
+                <div className="results-container" ref={targetRef}>
                     {summaryBtnClicked ?
                         <Summary range={range} results={results} /> :
-                        <table className="table">
+                        <table className="table" >
                             {sortedResults.map((result, key) => {
                                 const currentDate = `${result.date}`;
                                 const renderThead = currentDate !== prevDate;
@@ -59,6 +62,7 @@ function Results({ range, results, onBackBtnClick, onRestartBtnClick }) {
                         <button className='button' onClick={handleSummaryBtnClicked}>Table</button> :
                         <button className='button' onClick={handleSummaryBtnClicked}>Summary</button>
                     }
+                    <button className='button' onClick={() => toPDF()}>Export</button>
                     <button className='button' onClick={onRestartBtnClick}>Restart</button>
                 </div>
             </div >
