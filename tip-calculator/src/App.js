@@ -121,8 +121,9 @@ function App() {
 
   // Check if any input fields for tips or hours are empty
   function checkIfEmpty(tips, shifts) {
-    if (tips.length === 0) {
-      alert("Please enter proper tips!");
+    if (!Array.isArray(tips) || tips.length === 0) {
+      alert("Please enter valid tips!");
+
       return true;
     }
 
@@ -134,19 +135,25 @@ function App() {
       const totalEveningHours = shiftsByDate.reduce(
         (hours, shift) => hours + shift.eveningHours, 0);
 
-      if ((tip.morningTip > 0 && totalMorningHours === 0) ||
-        (tip.eveningTip > 0 && totalEveningHours === 0)) {
-        alert("Please enter proper hours!");
+      if (tip.morningTip > 0 && totalMorningHours === 0) {
+        alert(`Enter at least one person's hours for morning on day ${tip.date}!`);
         return true;
-      } else if ((tip.morningTip === 0 && totalEveningHours > 0) ||
-        (tip.eveningTip === 0 && totalEveningHours > 0)) {
-        alert("Please enter proper tips!");
+      } else if (tip.eveningTip > 0 && totalEveningHours === 0) {
+        alert(`Enter at least one person's hours for evening on day ${tip.date}!`);
         return true;
       }
+
+      if (tip.morningTip === 0 && totalMorningHours > 0) {
+        alert(`Enter valid morning tip for day ${tip.date}!`);
+        return true;
+      } else if (tip.eveningTip === 0 && totalEveningHours > 0) {
+        alert(`Enter valid evening tip for day ${tip.date}!`);
+        return true;
+      }
+
       return false;
     });
   }
-
 
   function handleNextBtnClick() {
     setNextBtnClicked(true);
