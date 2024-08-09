@@ -5,7 +5,7 @@ import Location from '../components/Location';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
-function Landing({ range, onRangeClick, onNextClick }) {
+function Landing({ range, onRangeClick, onNextClick, location, onLocationClick }) {
     return (
         <div className="landing-container">
             <div className="left-section">
@@ -14,7 +14,7 @@ function Landing({ range, onRangeClick, onNextClick }) {
             <div className="right-section">
                 {/* Calendar */}
                 <div className='wrapper'>
-                    {/* <div className='calendar-container'>
+                    {/* <div>
                         <h3>Please select the period</h3>
                         <DateRange
                             editableDateInputs={true}
@@ -23,7 +23,7 @@ function Landing({ range, onRangeClick, onNextClick }) {
                             ranges={range}
                         />
                     </div> */}
-                    <Location />
+                    <Location selectedLocation={location} onClick={onLocationClick} />
                     <button className='button' onClick={onNextClick}>Next</button>
                 </div>
             </div>

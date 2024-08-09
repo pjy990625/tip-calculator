@@ -49,10 +49,6 @@ code {
   transform: translate(-50%, -50%);
 }
 
-/* .calendar-container {
-  margin-right: 2rem;
-} */
-
 .table-container {
   /* margin-right: 2rem; */
   max-height: 720px;

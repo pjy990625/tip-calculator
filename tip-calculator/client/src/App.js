@@ -4,8 +4,12 @@ import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import Table from './components/Table';
 import Results from './components/Results';
+import { locations } from "./data";
+
+const locationArr = locations.map(location => location.value);
 
 function App() {
+  const [location, setLocation] = useState("");
   const [range, setRange] = useState([
     {
       startDate: new Date(),
@@ -18,6 +22,11 @@ function App() {
   const [results, setResults] = useState([]);
   const [nextBtnClicked, setNextBtnClicked] = useState(false);
   const [calculateBtnClicked, setCalculateBtnClicked] = useState(false);
+  
+  const handleLocation = (selectedOption) => {
+    setLocation(selectedOption);
+    console.log("Selected location:", selectedOption);
+};
 
   function handleRange(item) {
     setRange([item.selection]);
@@ -190,9 +199,9 @@ function App() {
     setCalculateBtnClicked(false);
   }
 
-  console.log(tips);
-  console.log(shifts);
-  console.log(results);
+  // console.log(tips);
+  // console.log(shifts);
+  // console.log(results);
 
   return (
     <div className="App">
@@ -201,11 +210,13 @@ function App() {
           range={range}
           onRangeClick={handleRange}
           onNextClick={handleNextBtnClick}
+          onLocationClick={handleLocation}
         />
       }
       {(nextBtnClicked && !calculateBtnClicked) &&
         <Dashboard
-
+          location={location}
+          onBackBtnClick={handleBackToCalendarBtnClick}
         />
       }
       {/* {(nextBtnClicked && !calculateBtnClicked) &&
