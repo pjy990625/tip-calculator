@@ -1,6 +1,6 @@
-import Location from '../components/Location';
+import Auth from '../components/Auth';
 
-function Landing({ selectedLocation, onLocationClick, onNextClick }) {
+function Landing() {
     return (
         <div className="landing-container">
             <div className="left-section">
@@ -8,8 +8,7 @@ function Landing({ selectedLocation, onLocationClick, onNextClick }) {
             </div>
             <div className="right-section">
                 <div className='wrapper'>
-                    <Location selectedLocation={selectedLocation} onLocationClick={onLocationClick} />
-                    <button className='button' onClick={onNextClick}>Next</button>
+                    <Auth />
                 </div>
             </div>
         </div>

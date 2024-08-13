@@ -1,7 +1,13 @@
-function Dashboard({ location }) {
+import Header from '../components/Header';
+import { useSelector, useDispatch } from 'react-redux';
+
+function Dashboard() {
+    const selectedLocation = useSelector(state => state.location.selectedLocation);
+
     return (
         <div>
-            <p>You're in {location}</p>
+            <Header />
+            <p>You're in {selectedLocation}</p>
             <div>
                 {/* <button className='button' onClick={onBackBtnClick}>Back</button> */}
                 <button className='button'>View Summary</button>

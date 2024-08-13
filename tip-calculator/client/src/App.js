@@ -7,7 +7,7 @@ import Results from './components/Results';
 import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
-  const selectedLocation = useSelector(state => state.location.selectedLocation);
+  const isAuth = useSelector(state => state.auth.isAuthenticated);
 
   // const [range, setRange] = useState([
   //   {
@@ -207,15 +207,17 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={
-            selectedLocation === '' ? (
-              <Landing />
-            ) : (
-              <Dashboard
-                location={selectedLocation}
-              />
-            )
-          }
+          element={!isAuth ? <Landing /> : <Dashboard />}
+        // path="/"
+        // element={
+        //   selectedLocation === '' ? (
+        //     <Landing />
+        //   ) : (
+        //     <Dashboard
+        //       location={selectedLocation}
+        //     />
+        //   )
+        // }
         />
         {/* <Route path="/dashboard" element={<Dashboard />} /> */}
       </Routes>
