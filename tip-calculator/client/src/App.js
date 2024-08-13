@@ -1,203 +1,202 @@
 import './App.css';
-import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import Table from './components/Table';
 import Results from './components/Results';
-import { locations } from "./data";
-
-const locationArr = locations.map(location => location.value);
+import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
-  const [location, setLocation] = useState("");
-  const [range, setRange] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: 'selection'
-    }
-  ]);
-  const [tips, setTips] = useState([]);
-  const [shifts, setShifts] = useState([]);
-  const [results, setResults] = useState([]);
-  const [nextBtnClicked, setNextBtnClicked] = useState(false);
-  const [calculateBtnClicked, setCalculateBtnClicked] = useState(false);
-  
-  const handleLocation = (selectedOption) => {
-    setLocation(selectedOption);
-    console.log("Selected location:", selectedOption);
-};
+  const selectedLocation = useSelector(state => state.location.selectedLocation);
 
-  function handleRange(item) {
-    setRange([item.selection]);
-  }
+  // const [range, setRange] = useState([
+  //   {
+  //     startDate: new Date(),
+  //     endDate: new Date(),
+  //     key: 'selection'
+  //   }
+  // ]);
+  // const [tips, setTips] = useState([]);
+  // const [shifts, setShifts] = useState([]);
+  // const [results, setResults] = useState([]);
+  // const [nextBtnClicked, setNextBtnClicked] = useState(false);
+  // const [calculateBtnClicked, setCalculateBtnClicked] = useState(false);
 
-  function handleTips(date, morningOrEvening, amount) {
-    setTips((preTips) => {
-      // If tip already exists, update the corresponding amount
-      const existingTipIndex = preTips.findIndex((tip) => tip.date === date);
+  // const handleLocation = (selectedOption) => {
+  //   setLocation(selectedOption);
+  //   console.log("Selected location:", selectedOption);
+  // };
 
-      if (existingTipIndex !== -1) {
-        return preTips.map((tip, index) =>
-          index === existingTipIndex ? { ...tip, [morningOrEvening]: +amount } : tip
-        );
-      }
-      // If tip does not exist, add new tip
-      let newTip = {
-        date: date,
-        morningTip: morningOrEvening === "morningTip" ? +amount : 0,
-        eveningTip: morningOrEvening === "eveningTip" ? +amount : 0,
-      };
+  // function handleRange(item) {
+  //   setRange([item.selection]);
+  // }
 
-      return [...preTips, newTip];
-    });
-  }
+  // function handleTips(date, morningOrEvening, amount) {
+  //   setTips((preTips) => {
+  //     // If tip already exists, update the corresponding amount
+  //     const existingTipIndex = preTips.findIndex((tip) => tip.date === date);
 
-  function handleShifts(date, name, morningOrEvening, hours) {
-    setShifts((prevShifts) => {
-      // If shift already exists, update the corresponding hours
-      const existingShiftIndex =
-        prevShifts.findIndex((shift) => shift.date === date && shift.name === name);
+  //     if (existingTipIndex !== -1) {
+  //       return preTips.map((tip, index) =>
+  //         index === existingTipIndex ? { ...tip, [morningOrEvening]: +amount } : tip
+  //       );
+  //     }
+  //     // If tip does not exist, add new tip
+  //     let newTip = {
+  //       date: date,
+  //       morningTip: morningOrEvening === "morningTip" ? +amount : 0,
+  //       eveningTip: morningOrEvening === "eveningTip" ? +amount : 0,
+  //     };
 
-      if (existingShiftIndex !== -1) {
-        return prevShifts.map((shift, index) =>
-          index === existingShiftIndex ? { ...shift, [morningOrEvening]: +hours } : shift
-        );
-      }
+  //     return [...preTips, newTip];
+  //   });
+  // }
 
-      // If the shift does not exist, add a new shift
-      let newShift = {
-        date: date,
-        name: name,
-        morningHours: morningOrEvening === "morningHours" ? +hours : 0,
-        eveningHours: morningOrEvening === "eveningHours" ? +hours : 0,
-      };
+  // function handleShifts(date, name, morningOrEvening, hours) {
+  //   setShifts((prevShifts) => {
+  //     // If shift already exists, update the corresponding hours
+  //     const existingShiftIndex =
+  //       prevShifts.findIndex((shift) => shift.date === date && shift.name === name);
 
-      return [...prevShifts, newShift];
-    });
-  }
+  //     if (existingShiftIndex !== -1) {
+  //       return prevShifts.map((shift, index) =>
+  //         index === existingShiftIndex ? { ...shift, [morningOrEvening]: +hours } : shift
+  //       );
+  //     }
 
-  function handleResults(date, name, morningTip, eveningTip, totalHours) {
-    setResults((prevResult) => {
-      let result = {
-        date: date,
-        name: name,
-        morningTip: morningTip,
-        eveningTip: eveningTip,
-        totalHours: totalHours,
-      }
+  //     // If the shift does not exist, add a new shift
+  //     let newShift = {
+  //       date: date,
+  //       name: name,
+  //       morningHours: morningOrEvening === "morningHours" ? +hours : 0,
+  //       eveningHours: morningOrEvening === "eveningHours" ? +hours : 0,
+  //     };
 
-      return [...prevResult, result];
-    });
-  }
+  //     return [...prevShifts, newShift];
+  //   });
+  // }
 
-  function calculateTips(tips, shifts) {
-    function calculateRate(tip, shifts, rateType) {
-      const tipAmount = tip[`${rateType}Tip`] * 0.6;
-      const totalHours = shifts.reduce((total, shift) =>
-        total + shift[`${rateType}Hours`], 0);
+  // function handleResults(date, name, morningTip, eveningTip, totalHours) {
+  //   setResults((prevResult) => {
+  //     let result = {
+  //       date: date,
+  //       name: name,
+  //       morningTip: morningTip,
+  //       eveningTip: eveningTip,
+  //       totalHours: totalHours,
+  //     }
 
-      return tipAmount / totalHours || 0;
-    }
+  //     return [...prevResult, result];
+  //   });
+  // }
 
-    function processShift(shift, morningRate, eveningRate) {
-      const morningTip = Math.trunc(morningRate * shift.morningHours);
-      const eveningTip = Math.trunc(eveningRate * shift.eveningHours);
-      const totalHours = shift.morningHours + shift.eveningHours;
+  // function calculateTips(tips, shifts) {
+  //   function calculateRate(tip, shifts, rateType) {
+  //     const tipAmount = tip[`${rateType}Tip`] * 0.6;
+  //     const totalHours = shifts.reduce((total, shift) =>
+  //       total + shift[`${rateType}Hours`], 0);
 
-      handleResults(shift.date, shift.name, morningTip, eveningTip, totalHours);
-    }
+  //     return tipAmount / totalHours || 0;
+  //   }
 
-    tips.forEach((tip) => {
-      const shiftsByDate = shifts.filter((shift) =>
-        shift.date === tip.date &&
-        (shift.morningHours !== 0 ||
-          shift.eveningHours !== 0)
-      );
-      const morningRate = calculateRate(tip, shiftsByDate, 'morning');
-      const eveningRate = calculateRate(tip, shiftsByDate, 'evening');
+  //   function processShift(shift, morningRate, eveningRate) {
+  //     const morningTip = Math.trunc(morningRate * shift.morningHours);
+  //     const eveningTip = Math.trunc(eveningRate * shift.eveningHours);
+  //     const totalHours = shift.morningHours + shift.eveningHours;
 
-      shiftsByDate.forEach((shift) => {
-        if (morningRate === 0) {
-          processShift(shift, 0, eveningRate);
-        } else if (eveningRate === 0) {
-          processShift(shift, morningRate, 0);
-        } else {
-          processShift(shift, morningRate, eveningRate);
-        }
-      });
-    });
-  }
+  //     handleResults(shift.date, shift.name, morningTip, eveningTip, totalHours);
+  //   }
 
-  // Check if any input fields for tips or hours are empty
-  function checkIfEmpty(tips, shifts) {
-    if (!Array.isArray(tips) || tips.length === 0) {
-      alert("Please enter valid tips!");
-      return true;
-    }
+  //   tips.forEach((tip) => {
+  //     const shiftsByDate = shifts.filter((shift) =>
+  //       shift.date === tip.date &&
+  //       (shift.morningHours !== 0 ||
+  //         shift.eveningHours !== 0)
+  //     );
+  //     const morningRate = calculateRate(tip, shiftsByDate, 'morning');
+  //     const eveningRate = calculateRate(tip, shiftsByDate, 'evening');
 
-    return tips.some((tip) => {
-      const shiftsByDate = shifts.filter(
-        (shift) => shift.date === tip.date);
-      const totalMorningHours = shiftsByDate.reduce(
-        (hours, shift) => hours + shift.morningHours, 0);
-      const totalEveningHours = shiftsByDate.reduce(
-        (hours, shift) => hours + shift.eveningHours, 0);
+  //     shiftsByDate.forEach((shift) => {
+  //       if (morningRate === 0) {
+  //         processShift(shift, 0, eveningRate);
+  //       } else if (eveningRate === 0) {
+  //         processShift(shift, morningRate, 0);
+  //       } else {
+  //         processShift(shift, morningRate, eveningRate);
+  //       }
+  //     });
+  //   });
+  // }
 
-      if (tip.morningTip > 0 && totalMorningHours === 0) {
-        alert(`Enter at least one person's hours for morning on day ${tip.date}!`);
-        return true;
-      } else if (tip.eveningTip > 0 && totalEveningHours === 0) {
-        alert(`Enter at least one person's hours for evening on day ${tip.date}!`);
-        return true;
-      }
+  // // Check if any input fields for tips or hours are empty
+  // function checkIfEmpty(tips, shifts) {
+  //   if (!Array.isArray(tips) || tips.length === 0) {
+  //     alert("Please enter valid tips!");
+  //     return true;
+  //   }
 
-      if (tip.morningTip === 0 && totalMorningHours > 0) {
-        alert(`Enter valid morning tip for day ${tip.date}!`);
-        return true;
-      } else if (tip.eveningTip === 0 && totalEveningHours > 0) {
-        alert(`Enter valid evening tip for day ${tip.date}!`);
-        return true;
-      }
+  //   return tips.some((tip) => {
+  //     const shiftsByDate = shifts.filter(
+  //       (shift) => shift.date === tip.date);
+  //     const totalMorningHours = shiftsByDate.reduce(
+  //       (hours, shift) => hours + shift.morningHours, 0);
+  //     const totalEveningHours = shiftsByDate.reduce(
+  //       (hours, shift) => hours + shift.eveningHours, 0);
 
-      return false;
-    });
-  }
+  //     if (tip.morningTip > 0 && totalMorningHours === 0) {
+  //       alert(`Enter at least one person's hours for morning on day ${tip.date}!`);
+  //       return true;
+  //     } else if (tip.eveningTip > 0 && totalEveningHours === 0) {
+  //       alert(`Enter at least one person's hours for evening on day ${tip.date}!`);
+  //       return true;
+  //     }
 
-  function handleNextBtnClick() {
-    setNextBtnClicked(true);
-  }
+  //     if (tip.morningTip === 0 && totalMorningHours > 0) {
+  //       alert(`Enter valid morning tip for day ${tip.date}!`);
+  //       return true;
+  //     } else if (tip.eveningTip === 0 && totalEveningHours > 0) {
+  //       alert(`Enter valid evening tip for day ${tip.date}!`);
+  //       return true;
+  //     }
 
-  function handleBackToCalendarBtnClick() {
-    setNextBtnClicked(false);
-  }
+  //     return false;
+  //   });
+  // }
 
-  function handleCalculateBtnClick() {
-    if (checkIfEmpty(tips, shifts)) {
-      return
-    } else {
-      calculateTips(tips, shifts);
-      setCalculateBtnClicked(true);
-    }
-  }
+  // function handleNextBtnClick() {
+  //   setNextBtnClicked(true);
+  // }
 
-  function handleBackToTableBtnClick() {
-    setResults([]);
-    setCalculateBtnClicked(false);
-  }
+  // function handleBackToCalendarBtnClick() {
+  //   setNextBtnClicked(false);
+  // }
 
-  function handleRestartBtnClick() {
-    setRange([{
-      startDate: new Date(),
-      endDate: new Date(),
-      key: 'selection'
-    }]);
-    setTips([]);
-    setShifts([]);
-    setResults([]);
-    setNextBtnClicked(false);
-    setCalculateBtnClicked(false);
-  }
+  // function handleCalculateBtnClick() {
+  //   if (checkIfEmpty(tips, shifts)) {
+  //     return
+  //   } else {
+  //     calculateTips(tips, shifts);
+  //     setCalculateBtnClicked(true);
+  //   }
+  // }
+
+  // function handleBackToTableBtnClick() {
+  //   setResults([]);
+  //   setCalculateBtnClicked(false);
+  // }
+
+  // function handleRestartBtnClick() {
+  //   setRange([{
+  //     startDate: new Date(),
+  //     endDate: new Date(),
+  //     key: 'selection'
+  //   }]);
+  //   setTips([]);
+  //   setShifts([]);
+  //   setResults([]);
+  //   setNextBtnClicked(false);
+  //   setCalculateBtnClicked(false);
+  // }
 
   // console.log(tips);
   // console.log(shifts);
@@ -205,7 +204,23 @@ function App() {
 
   return (
     <div className="App">
-      {!nextBtnClicked &&
+      <Routes>
+        <Route
+          path="/"
+          element={
+            selectedLocation === '' ? (
+              <Landing />
+            ) : (
+              <Dashboard
+                location={selectedLocation}
+              />
+            )
+          }
+        />
+        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+      </Routes>
+
+      {/* {!nextBtnClicked &&
         <Landing
           range={range}
           onRangeClick={handleRange}
@@ -219,7 +234,7 @@ function App() {
           onBackBtnClick={handleBackToCalendarBtnClick}
         />
       }
-      {/* {(nextBtnClicked && !calculateBtnClicked) &&
+      {(nextBtnClicked && !calculateBtnClicked) &&
         <Table
           range={range}
           tips={tips}
