@@ -1,7 +1,16 @@
 import Select from 'react-select';
 import { locations } from "../data";
+import { useSelector, useDispatch } from 'react-redux';
+import { locationActions } from '../store/index';
 
-function Location({ selectedLocation, onLocationClick }) {
+function Location() {
+    const dispatch = useDispatch();
+    const selectedLocation = useSelector(state => state.selectedLocation);
+
+    const handleLocationChange = (selectedLocation) => {
+        dispatch(locationActions.updateLocation(selectedLocation.value));
+    }
+
     return (
         <div>
             <h3>Please select your location</h3>
@@ -10,7 +19,7 @@ function Location({ selectedLocation, onLocationClick }) {
                 classNamePrefix="select"
                 name="location"
                 value={selectedLocation}
-                onChange={onLocationClick}
+                onChange={handleLocationChange}
                 options={locations}
             />
         </div >
