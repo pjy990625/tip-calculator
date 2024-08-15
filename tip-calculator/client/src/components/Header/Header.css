@@ -1,0 +1,25 @@
+.navbar ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+}
+
+.logout-button {
+    font-family: 'DungGeunMo';
+    margin-right: 2rem;
+    background-color: #fff;
+    border: 2px solid #343434;
+    border-radius: 30px;
+    box-shadow: #343434 4px 4px 0 0;
+    color: #343434;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 0 18px;
+    line-height: 50px;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    touch-action: manipulation;
+}
