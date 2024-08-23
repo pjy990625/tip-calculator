@@ -1,0 +1,75 @@
+.login-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, .5);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+    border-radius: 10px;
+}
+
+.login-box h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+}
+
+.login-box .user-box {
+    position: relative;
+    margin-bottom: 0.5rem;
+    color: black;
+}
+
+.login-box .user-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+
+.login-box .user-box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+}
+
+.login-box .user-box input:focus~label,
+.login-box .user-box input:valid~label {
+    display: none;
+}
+
+.login-button {
+    font-family: 'DungGeunMo';
+    background-color: #fff;
+    border: 2px solid var(--secondary-color);
+    border-radius: 30px;
+    box-shadow: var(--secondary-color) 4px 4px 0 0;
+    color: var(--secondary-color);
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 0 18px;
+    line-height: 50px;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.login-button:active {
+    box-shadow: var(--secondary-color) 2px 2px 0 0;
+    transform: translate(2px, 2px);
+}
