@@ -23,3 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 ./client/node_modules/.cache/default-development/5.pack
 ./client/node_modules/.cache/default-development/44.pack
+./client/node_modules/.cache/default-development/6.pack_
