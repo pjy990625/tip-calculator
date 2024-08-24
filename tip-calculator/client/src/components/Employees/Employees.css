@@ -58,20 +58,20 @@ td {
     text-align: left;
 }
 
-th {
+.employee-table th {
     background-color: #f2f2f2;
     font-weight: bold;
 }
 
-tr:nth-child(even) {
+.employee-table tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-tr:hover {
+.employee-table tr:hover {
     background-color: #f5f5f5;
 }
 
-button {
+.employee-table button {
     margin-right: 5px;
     padding: 6px 12px;
     background-color: #008CBA;
@@ -80,15 +80,15 @@ button {
     cursor: pointer;
 }
 
-/* button:hover {
+.employee-table button:hover {
     opacity: 0.8;
 }
 
-button:last-child {
+.employee-table button:last-child {
     background-color: #f44336;
-} */
+}
 
-input[type="text"] {
+.employee-table input[type="text"] {
     width: 100%;
     padding: 6px;
     box-sizing: border-box;
