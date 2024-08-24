@@ -1,3 +1,11 @@
+:root {
+  --primary-color: #1c2636;
+  --secondary-color: #2e3b52;
+  --tertiary-color: #405068;
+  --accent-color: #1c3642;
+  --text-color: #FFFFFF;
+}
+
 @font-face {
   font-family: 'DungGeunMo';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
@@ -10,8 +18,8 @@ body {
   font-family: 'DungGeunMo';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #6CA6C1;
-  color: #343434;
+  background-color: var(--primary-color);
+  color: white;
 }
 
 code {

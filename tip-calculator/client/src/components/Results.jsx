@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { usePDF } from 'react-to-pdf';
-import Summary from './Summary';
+import Summary from '../components/Summary/Summary';
 
 function Results({ range, results, onBackBtnClick, onRestartBtnClick }) {
     const [summaryBtnClicked, setSummaryBtnClicked] = useState(false);

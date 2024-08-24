@@ -1,4 +1,4 @@
-import Auth from '../components/Auth/Auth';
+import Login from '../components/Login/Login';
 
 function Landing() {
     return (
@@ -8,7 +8,7 @@ function Landing() {
             </div>
             <div className="right-section">
                 <div className='wrapper'>
-                    <Auth />
+                    <Login />
                 </div>
             </div>
         </div>

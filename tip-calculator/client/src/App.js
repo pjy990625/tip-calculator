@@ -1,7 +1,7 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Landing from './pages/Landing';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard/Dashboard';
 import Table from './components/Table';
 import Results from './components/Results';
 import { useSelector, useDispatch } from 'react-redux';
