@@ -1,25 +1,30 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../store/index';
-import { GrLocation, GrAdd, GrUserManager, GrDocumentText, GrLogout } from 'react-icons/gr';
+import { GrLocation, GrAdd, GrUserManager, GrDocumentText, GrSettingsOption, GrLogout } from 'react-icons/gr';
 import Tips from '../../components/Tips/Tips';
 import Employees from '../../components/Employees/Employees';
 import Summary from '../../components/Summary/Summary';
+import Setting from '../../components/Setting/Setting';
 import './Dashboard.css';
 
 const tabs = [
     { title: 'Add Tips', icon: <GrAdd />, component: <Tips /> },
     { title: 'Manage Employees', icon: <GrUserManager />, component: <Employees /> },
     { title: 'View Summary', icon: <GrDocumentText />, component: <Summary /> },
+    { title: 'Setting', icon: <GrSettingsOption />, component: <Setting /> },
 ];
 
+function getDate() {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+    const date = today.getDate();
+    return `${month}/${date}/${year}`;
+}
+
 const Dashboard = () => {
-    const dispatch = useDispatch();
-
-    const logoutHandler = () => {
-        dispatch(authActions.logout());
-    }
-
+    // show selected location
     const selectedLocation = useSelector(state => state.location.selectedLocation);
 
     // show selected tab
@@ -27,6 +32,14 @@ const Dashboard = () => {
 
     function onTabClicked(index) {
         setSelectedTab(index);
+    }
+    // show current date
+    const [currentDate, setCurrentDate] = useState(getDate());
+
+    const dispatch = useDispatch();
+
+    const logoutHandler = () => {
+        dispatch(authActions.logout());
     }
 
     return (
@@ -59,9 +72,9 @@ const Dashboard = () => {
             </aside>
 
             <main className="tab-content">
-                <header>
+                <header className='header'>
                     <h1>Dashboard</h1>
-                    <p>Take a look at the updated overview</p>
+                    <h1>{currentDate}</h1>
                 </header>
                 <section>
                     {tabs[selectedTab].component}
