@@ -1,10 +1,20 @@
 import Select from 'react-select'
 import { useSelector, useDispatch } from 'react-redux';
 import { locationActions, authActions } from '../../store/index';
-import { locations } from "../../data";
+import { useAllLocations } from '../../hooks/useLocation';
 import './Login.css'
 
 function Login() {
+    // Get all locations from database
+    const { data: locations, error: locationsError, isLoading: locationsLoading } = useAllLocations();
+    console.log(locations);
+
+    // Transform branches data into the format expected by react-select
+    const locationOptions = locations ? locations.map(location => ({
+        value: location.location_id,
+        label: location.location_name
+    })) : [];
+
     const dispatch = useDispatch();
 
     const selectedLocation = useSelector(state => state.selectedLocation);
@@ -24,14 +34,20 @@ function Login() {
             <h2>Login</h2>
             <form onSubmit={loginHandler}>
                 <div className="user-box">
-                    <Select
-                        className="basic-single"
-                        name="location"
-                        placeholder="Select your location..."
-                        value={selectedLocation}
-                        onChange={handleLocationChange}
-                        options={locations}
-                    />
+                    {locationsLoading ? (
+                        <p>Loading locations...</p>
+                    ) : locationsError ? (
+                        <p>Error loading locations: {locationsError.message}</p>
+                    ) : (
+                        <Select
+                            className="basic-single"
+                            name="location"
+                            placeholder="Select your location..."
+                            value={selectedLocation}
+                            onChange={handleLocationChange}
+                            options={locationOptions}
+                        />
+                    )}
                 </div>
                 <div className="user-box">
                     <input type="password" name="" />

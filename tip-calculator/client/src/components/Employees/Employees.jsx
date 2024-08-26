@@ -122,7 +122,7 @@ const Employees = () => {
 
   return (
     <div className="employees-container">
-      <h1>Employees Management</h1>
+      <h1>Manage Employees</h1>
       <div className="add-employee-form">
         <input
           type="text"

@@ -1,20 +1,24 @@
-const PORT = process.env.PORT ?? 8000
-const express = require('express')
-const app = express()
-const pool = require('./db')
+const express = require('express');
+const cors = require('cors');
+const branchRoutes = require('./routes/locationRoutes');
+const employeeRoutes = require('./routes/Example-employeeRoutes');
 
-// app.get('/', (req, res) => {
-//     res.send('hello')
-// })
+const app = express();
 
-//get all branches
-app.get('/branches', async (req, res) => {
-    try {
-        const kai = await pool.query('SELECT * FROM branches')
-        res.json(kai.rows)
-    } catch (err) {
-        console.log(err);
-    }
+// Enable CORS for all routes
+app.use(cors());
+
+// Use JSON for request body parsing
+app.use(express.json());
+
+// Set up API routes
+app.use('/api', branchRoutes);
+app.use('/api', employeeRoutes);
+
+app.get('/', (req, res) => {
+    res.send('hello')
 })
 
-app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`))
+// Start the server
+const PORT = process.env.PORT ?? 8000;
+app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));

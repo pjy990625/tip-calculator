@@ -3,18 +3,9 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './Tips.css'
-// import { names } from '../../data';
 
-function getDate() {
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const year = today.getFullYear();
-    const date = today.getDate();
-    return `${month}/${date}/${year}`;
-}
-
-function Tips() {
-    // check if it is morning for evening
+function Tips({ servers, kitchenStaff }) {
+    // Check if it is morning for evening
     const [isBeforeFourPM, setIsBeforeFourPM] = useState(false);
 
     useEffect(() => {
@@ -38,21 +29,12 @@ function Tips() {
     const [totalTip, setTotalTip] = useState('');
     const [tables, setTables] = useState([
         {
-            id: 1,
-            staff: [
-                { id: 1, name: 'Server 1', percentage: 40 },
-                { id: 2, name: 'Server 2', percentage: 30 },
-                { id: 3, name: 'Busser', percentage: 20 },
-                { id: 4, name: 'Host', percentage: 10 },
-            ]
+            name: "Servers",
+            staff: [servers]
         },
         {
-            id: 2,
-            staff: [
-                { id: 5, name: 'Server 3', percentage: 50 },
-                { id: 6, name: 'Server 4', percentage: 30 },
-                { id: 7, name: 'Bartender', percentage: 20 },
-            ]
+            name: "Kitchen Staff",
+            staff: [kitchenStaff]
         }
     ]);
 
@@ -87,38 +69,38 @@ function Tips() {
 
     return (
         <div className="tip-calculator">
-            <h2>Add Tips</h2>
+            <h2>Manage Tips</h2>
             <div className="input-group">
                 {
                     isBeforeFourPM ? (
                         <>
                             <label htmlFor="totalTip">Total Morning Tip:</label>
-                            <input
-                                type="number"
-                                id="totalTip"
-                                value={totalTip}
-                                onChange={handleTotalTipChange}
-                                placeholder="Enter morning tip"
-                            />
+                                <input
+                                    type="number"
+                                    id="totalTip"
+                                    value={totalTip}
+                                    onChange={handleTotalTipChange}
+                                    placeholder="Enter morning tip"
+                                />
                         </>
                     ) : (
                         <>
                             <label htmlFor="totalTip">Total Evening Tip:</label>
-                            <input
-                                type="number"
-                                id="totalTip"
-                                value={totalTip}
-                                onChange={handleTotalTipChange}
-                                placeholder="Enter evening tip"
-                            />
+                                <input
+                                    type="number"
+                                    id="totalTip"
+                                    value={totalTip}
+                                    onChange={handleTotalTipChange}
+                                    placeholder="Enter evening tip"
+                                />
                         </>
                     )
                 }
             </div>
             <Slider {...settings}>
                 {tables.map((table) => (
-                    <div key={table.id}>
-                        <h3>Table {table.id}</h3>
+                    <div key={table.name}>
+                        <h3>{table.name}</h3>
                         <table>
                             <thead>
                                 <tr>
@@ -128,7 +110,42 @@ function Tips() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {table.staff.map((member) => (
+                                {table.name === "Servers" ? (
+                                    <>
+                                        {servers.map((server) => (
+                                            <tr key={server.employee_name}>
+                                                <td>{server.employee_name}</td>
+                                                <td>
+                                                    <input
+                                                        type="number"
+                                                        min="0"
+                                                        max="24"
+                                                    />
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        ))}
+                                    </>
+                                ) : (
+                                    <>
+                                        {kitchenStaff.map((server) => (
+                                            <tr key={server.employee_name}>
+                                                <td>{server.employee_name}</td>
+                                                <td>
+                                                    <input
+                                                        type="number"
+                                                        min="0"
+                                                        max="24"
+                                                    />
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        ))}
+                                    </>
+                                )}
+
+
+                                {/* {table.staff.map((member) => (
                                     <tr key={member.id}>
                                         <td>{member.name}</td>
                                         <td>
@@ -142,7 +159,7 @@ function Tips() {
                                         </td>
                                         <td>${calculateIndividualTip(member.percentage)}</td>
                                     </tr>
-                                ))}
+                                ))} */}
                             </tbody>
                         </table>
                     </div>

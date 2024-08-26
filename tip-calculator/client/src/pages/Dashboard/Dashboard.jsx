@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../store/index';
-import { GrLocation, GrAdd, GrUserManager, GrDocumentText, GrSettingsOption, GrLogout } from 'react-icons/gr';
+import { GrLocation, GrMoney, GrUserManager, GrDocumentText, GrSettingsOption, GrLogout } from 'react-icons/gr';
 import Tips from '../../components/Tips/Tips';
 import Employees from '../../components/Employees/Employees';
 import Summary from '../../components/Summary/Summary';
 import Setting from '../../components/Setting/Setting';
 import './Dashboard.css';
+import { useServers, useKitchenStaff } from '../../hooks/useEmployee';
 
 const tabs = [
-    { title: 'Add Tips', icon: <GrAdd />, component: <Tips /> },
-    { title: 'Manage Employees', icon: <GrUserManager />, component: <Employees /> },
-    { title: 'View Summary', icon: <GrDocumentText />, component: <Summary /> },
-    { title: 'Setting', icon: <GrSettingsOption />, component: <Setting /> },
+    { title: 'Tips', icon: <GrMoney />, component: (props) => <Tips {...props} /> },
+    { title: 'Employees', icon: <GrUserManager />, component: (props) => <Employees {...props} /> },
+    { title: 'Summary', icon: <GrDocumentText />, component: (props) => <Summary {...props} /> },
+    { title: 'Setting', icon: <GrSettingsOption />, component: (props) => <Setting {...props} /> },
 ];
 
 function getDate() {
@@ -23,17 +24,35 @@ function getDate() {
     return `${month}/${date}/${year}`;
 }
 
-const Dashboard = () => {
-    // show selected location
-    const selectedLocation = useSelector(state => state.location.selectedLocation);
+// Function to convert location names
+const getApiLocation = (location) => {
+    switch (location) {
+        case 'Port Coquitlam':
+            return 'poco';
+        case 'Langley':
+            return 'langley';
+        default:
+            return '';
+    }
+};
 
-    // show selected tab
+const Dashboard = () => {
+    // Show the selected location
+    const selectedLocation = useSelector(state => state.location.selectedLocation);
+    const apiLocation = getApiLocation(selectedLocation);
+
+    // Fetch servers and kitchen staff using custom hooks
+    const { data: servers, error: serverError, isLoading: serverLoading } = useServers(apiLocation);
+    const { data: kitchenStaff, error: kitchenError, isLoading: kitchenLoading } = useKitchenStaff(apiLocation);
+
+    // Show selected tab
     const [selectedTab, setSelectedTab] = useState(0);
 
     function onTabClicked(index) {
         setSelectedTab(index);
     }
-    // show current date
+
+    // Show current date
     const [currentDate, setCurrentDate] = useState(getDate());
 
     const dispatch = useDispatch();
@@ -47,9 +66,7 @@ const Dashboard = () => {
             <aside className="sidebar">
                 <div className="user-profile">
                     <GrLocation />
-                    <h3>
-                        {selectedLocation}
-                    </h3>
+                    <h3>{selectedLocation}</h3>
                 </div>
                 <nav className="tab-list">
                     {tabs.map((tab, index) => (
@@ -77,7 +94,16 @@ const Dashboard = () => {
                     <h1>{currentDate}</h1>
                 </header>
                 <section>
-                    {tabs[selectedTab].component}
+                    {serverLoading ? (
+                        <p>Loading servers...</p>
+                    ) : serverError ? (
+                        <p>Error loading servers: {serverError.message}</p>
+                    ) : (
+                        tabs[selectedTab].component({
+                            servers: servers,
+                            kitchenStaff: kitchenStaff,
+                        })
+                    )}
                 </section>
             </main>
         </div>
