@@ -1,13 +1,12 @@
-CREATE DATABASE kai;
-CREATE TABLE branches (
-    branch_id serial PRIMARY KEY,
-    branch_name VARCHAR(100) NOT NULL
+CREATE TABLE locations (
+    location_id serial PRIMARY KEY,
+    location_name VARCHAR(100) NOT NULL
 );
 CREATE TABLE employees (
     employee_id serial PRIMARY KEY,
-    branch_id INT REFERENCES branches(branch_id),
+    location_id INT REFERENCES locations(location_id),
     employee_name VARCHAR(100) NOT NULL,
-    employee_role VARCHAR(1) NOT NULL,
+    employee_role VARCHAR(1) NOT NULL
 );
 CREATE TABLE dates (
     date_id serial PRIMARY KEY,
@@ -15,7 +14,7 @@ CREATE TABLE dates (
 );
 CREATE TABLE tips (
     tip_id serial PRIMARY KEY,
-    branch_id INT REFERENCES branches(branch_id),
+    location_id INT REFERENCES locations(location_id),
     date_id INT REFERENCES dates(date_id),
     morning_tip_amount NUMERIC(6, 2) NOT NULL,
     evening_tip_amount NUMERIC(6, 2) NOT NULL
@@ -27,10 +26,10 @@ CREATE TABLE work_hours (
     hours_worked NUMERIC(4, 2) NOT NULL,
     shift_period VARCHAR(10) NOT NULL
 );
-INSERT INTO branches (branch_name)
+INSERT INTO locations (location_name)
 VALUES ('Port Coquitlam'),
     ('Langley');
-INSERT INTO employees (branch_id, employee_name, employee_role)
+INSERT INTO employees (location_id, employee_name, employee_role)
 VALUES (1, 'John Doe', 'K'),
     (2, 'Jane Smith', 'S'),
     (1, 'Michael Brown', 'S'),
@@ -49,7 +48,7 @@ VALUES ('2024-08-01'),
     ('2024-08-06'),
     ('2024-08-07');
 INSERT INTO tips (
-        branch_id,
+        location_id,
         date_id,
         morning_tip_amount,
         evening_tip_amount

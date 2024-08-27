@@ -6,8 +6,9 @@ import Tips from '../../components/Tips/Tips';
 import Employees from '../../components/Employees/Employees';
 import Summary from '../../components/Summary/Summary';
 import Setting from '../../components/Setting/Setting';
-import './Dashboard.css';
+import { useLocationById } from '../../hooks/useLocation';
 import { useServers, useKitchenStaff } from '../../hooks/useEmployee';
+import './Dashboard.css';
 
 const tabs = [
     { title: 'Tips', icon: <GrMoney />, component: (props) => <Tips {...props} /> },
@@ -24,26 +25,14 @@ function getDate() {
     return `${month}/${date}/${year}`;
 }
 
-// Function to convert location names
-const getApiLocation = (location) => {
-    switch (location) {
-        case 'Port Coquitlam':
-            return 'poco';
-        case 'Langley':
-            return 'langley';
-        default:
-            return '';
-    }
-};
-
 const Dashboard = () => {
-    // Show the selected location
-    const selectedLocation = useSelector(state => state.location.selectedLocation);
-    const apiLocation = getApiLocation(selectedLocation);
+    // Get the selected location from database
+    const selectedLocationId = useSelector(state => state.location.selectedLocation);
+    const { data: location, error: locationError, isLoading: locationLoading } = useLocationById(selectedLocationId);
 
     // Fetch servers and kitchen staff using custom hooks
-    const { data: servers, error: serverError, isLoading: serverLoading } = useServers(apiLocation);
-    const { data: kitchenStaff, error: kitchenError, isLoading: kitchenLoading } = useKitchenStaff(apiLocation);
+    const { data: servers, error: serverError, isLoading: serverLoading } = useServers(selectedLocationId);
+    const { data: kitchenStaff, error: kitchenError, isLoading: kitchenLoading } = useKitchenStaff(selectedLocationId);
 
     // Show selected tab
     const [selectedTab, setSelectedTab] = useState(0);
@@ -66,7 +55,13 @@ const Dashboard = () => {
             <aside className="sidebar">
                 <div className="user-profile">
                     <GrLocation />
-                    <h3>{selectedLocation}</h3>
+                    {locationLoading ? (
+                        <p>Location loading...</p>
+                    ) : locationError ? (
+                        <p>Error loading location: {locationError.message}</p>
+                    ) : (
+                        <h3>{location.location_name}</h3>
+                    )}
                 </div>
                 <nav className="tab-list">
                     {tabs.map((tab, index) => (
@@ -94,10 +89,12 @@ const Dashboard = () => {
                     <h1>{currentDate}</h1>
                 </header>
                 <section>
-                    {serverLoading ? (
-                        <p>Loading servers...</p>
-                    ) : serverError ? (
+                    {(serverLoading || kitchenLoading) ? (
+                        <p>Loading ...</p>
+                    ) : (serverError) ? (
                         <p>Error loading servers: {serverError.message}</p>
+                    ) : (kitchenError) ? (
+                        <p>Error loading kitchen staff: {kitchenError.message}</p>
                     ) : (
                         tabs[selectedTab].component({
                             servers: servers,

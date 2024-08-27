@@ -1,7 +1,7 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
 
 // create location slice
-const initialLocationState = { selectedLocation: 'Port Coquitlam' };
+const initialLocationState = { selectedLocation: null };
 
 const locationSlice = createSlice({
     name: 'location',

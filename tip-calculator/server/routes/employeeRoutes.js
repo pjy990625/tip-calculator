@@ -6,9 +6,9 @@ const {
 } = require('../controllers/employeeController');
 
 // Define a route to get all servers in a specific location
-router.get('/:locationId/servers', getServers);
+router.get('/:location_id/servers', getServers);
 
 // Define a route to get all kitchen staff in a specific location
-router.get('/:locationId/kitchen-staff', getKitchenStaff);
+router.get('/:location_id/kitchen-staff', getKitchenStaff);
 
 module.exports = router;

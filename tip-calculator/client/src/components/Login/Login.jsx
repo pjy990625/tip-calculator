@@ -7,17 +7,16 @@ import './Login.css'
 function Login() {
     // Get all locations from database
     const { data: locations, error: locationsError, isLoading: locationsLoading } = useAllLocations();
-    console.log(locations);
 
     // Transform branches data into the format expected by react-select
     const locationOptions = locations ? locations.map(location => ({
         value: location.location_id,
         label: location.location_name
     })) : [];
-
-    const dispatch = useDispatch();
-
+    
+    // Store selected location using redux
     const selectedLocation = useSelector(state => state.selectedLocation);
+    const dispatch = useDispatch();
 
     const handleLocationChange = (selectedLocation) => {
         dispatch(locationActions.updateLocation(selectedLocation.value));

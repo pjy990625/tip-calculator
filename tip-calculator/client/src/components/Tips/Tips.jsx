@@ -7,6 +7,7 @@ import './Tips.css'
 function Tips({ servers, kitchenStaff }) {
     // Check if it is morning for evening
     const [isBeforeFourPM, setIsBeforeFourPM] = useState(false);
+    console.log(servers);
 
     useEffect(() => {
         const checkTime = () => {
@@ -30,11 +31,11 @@ function Tips({ servers, kitchenStaff }) {
     const [tables, setTables] = useState([
         {
             name: "Servers",
-            staff: [servers]
+            staff: servers
         },
         {
             name: "Kitchen Staff",
-            staff: [kitchenStaff]
+            staff: kitchenStaff
         }
     ]);
 
@@ -75,24 +76,24 @@ function Tips({ servers, kitchenStaff }) {
                     isBeforeFourPM ? (
                         <>
                             <label htmlFor="totalTip">Total Morning Tip:</label>
-                                <input
-                                    type="number"
-                                    id="totalTip"
-                                    value={totalTip}
-                                    onChange={handleTotalTipChange}
-                                    placeholder="Enter morning tip"
-                                />
+                            <input
+                                type="number"
+                                id="totalTip"
+                                value={totalTip}
+                                onChange={handleTotalTipChange}
+                                placeholder="Enter morning tip"
+                            />
                         </>
                     ) : (
                         <>
                             <label htmlFor="totalTip">Total Evening Tip:</label>
-                                <input
-                                    type="number"
-                                    id="totalTip"
-                                    value={totalTip}
-                                    onChange={handleTotalTipChange}
-                                    placeholder="Enter evening tip"
-                                />
+                            <input
+                                type="number"
+                                id="totalTip"
+                                value={totalTip}
+                                onChange={handleTotalTipChange}
+                                placeholder="Enter evening tip"
+                            />
                         </>
                     )
                 }
@@ -110,40 +111,22 @@ function Tips({ servers, kitchenStaff }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {table.name === "Servers" ? (
-                                    <>
-                                        {servers.map((server) => (
-                                            <tr key={server.employee_name}>
-                                                <td>{server.employee_name}</td>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        min="0"
-                                                        max="24"
-                                                    />
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                        ))}
-                                    </>
-                                ) : (
-                                    <>
-                                        {kitchenStaff.map((server) => (
-                                            <tr key={server.employee_name}>
-                                                <td>{server.employee_name}</td>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        min="0"
-                                                        max="24"
-                                                    />
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                        ))}
-                                    </>
-                                )}
-
+                                {table.staff.map((member) => (
+                                    <tr key={member.employee_id}>
+                                        <td>{member.employee_name}</td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                max="24"
+                                            />
+                                        </td>
+                                        <td>
+                                            {/* Calculate tip based on member's percentage */}
+                                            {member.percentage !== undefined ? `$${calculateIndividualTip(member.percentage)}` : '$0.00'}
+                                        </td>
+                                    </tr>
+                                ))}
 
                                 {/* {table.staff.map((member) => (
                                     <tr key={member.id}>

@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const branchRoutes = require('./routes/locationRoutes');
-const employeeRoutes = require('./routes/Example-employeeRoutes');
+const locationRoutes = require('./routes/locationRoutes');
+const employeeRoutes = require('./routes/employeeRoutes');
 
 const app = express();
 
@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 // Set up API routes
-app.use('/api', branchRoutes);
+app.use('/api', locationRoutes);
 app.use('/api', employeeRoutes);
 
 app.get('/', (req, res) => {

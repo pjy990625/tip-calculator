@@ -1,13 +1,17 @@
 const pool = require('../db/db');
 
-// Function to get all servers
+// Function to get all servers in select location
 const getServers = async (req, res) => {
     try {
-        const { branch_id } = req.query; // Read branch_id from query parameters
-        console.log(branch_id)
+        const { location_id } = req.query; // Read location_id from query parameters
+        console.log(location_id);
+
+        if (!location_id) {
+            return res.status(400).json({ error: 'Location id is missing' });
+        }
 
         const result = await pool.query(
-            `SELECT employee_name FROM employees WHERE branch_id = ${branch_id} AND employee_role = 'S'`
+            `SELECT * FROM employees WHERE location_id = ${location_id} AND employee_role = 'S'`
         );
         res.status(200).json(result.rows);
     } catch (err) {
@@ -16,14 +20,18 @@ const getServers = async (req, res) => {
     }
 }
 
-// Function to get all kitchen staff
+// Function to get all kitchen staff in select location
 const getKitchenStaff = async (req, res) => {
     try {
-        const { branch_id } = req.query; // Read branch_id from query parameters
-        console.log(branch_id)
-        
+        const { location_id } = req.query; // Read location_id from query parameters
+        console.log(location_id);
+
+        if (!location_id) {
+            return res.status(400).json({ error: 'Location id is missing' });
+        }
+
         const result = await pool.query(
-            `SELECT employee_name FROM employees WHERE branch_id = ${branch_id} AND employee_role = 'K'`
+            `SELECT * FROM employees WHERE location_id = ${location_id} AND employee_role = 'K'`
         );
         res.status(200).json(result.rows);
     } catch (err) {

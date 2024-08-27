@@ -8,10 +8,10 @@ const fetchAllLocations = async () => {
     return response.data;
 };
 
-// Axios function to fetch the selected location
-const fetchLocation = async (location_name) => {
-    const response = await axios.get(`http://localhost:8000/api/locations/:location_id`, {
-        params: { location_name: location_name } // Pass location name as a parameter
+// Axios function to fetch the selected location by id
+const fetchLocationById = async (location_id) => {
+    const response = await axios.get(`http://localhost:8000/api/locations/${location_id}`, {
+        params: { location_id: location_id } // Pass location id as a parameter
     });
 
     return response.data;
@@ -26,10 +26,10 @@ export const useAllLocations = () => {
 };
 
 // Custom hook for fetching the selected location
-export const useBranch = (location_name) => {
+export const useLocationById = (location_id) => {
     return useQuery({
-        queryKey: ['location_name', location_name],
-        queryFn: () => fetchLocation(),
-        enabled: !!location_name, // Only fetch when location_name is set
+        queryKey: ['location_id', location_id],
+        queryFn: () => fetchLocationById(location_id),
+        enabled: !!location_id, // Only fetch when location_id is set
     });
 };
