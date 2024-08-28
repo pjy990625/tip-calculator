@@ -1,16 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 // Axios function to fetch all locations
 const fetchAllLocations = async () => {
-    const response = await axios.get(`http://localhost:8000/api/locations`);
+    const response = await axios.get(`${API_URL}/locations`);
 
     return response.data;
 };
 
 // Axios function to fetch the selected location by id
 const fetchLocationById = async (location_id) => {
-    const response = await axios.get(`http://localhost:8000/api/locations/${location_id}`, {
+    const response = await axios.get(`${API_URL}/locations/${location_id}`, {
         params: { location_id: location_id } // Pass location id as a parameter
     });
 

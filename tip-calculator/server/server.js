@@ -12,8 +12,8 @@ app.use(cors());
 app.use(express.json());
 
 // Set up API routes
-app.use('/api', locationRoutes);
-app.use('/api', employeeRoutes);
+app.use('/', locationRoutes);
+app.use('/dashboard', employeeRoutes);
 
 app.get('/', (req, res) => {
     res.send('hello')

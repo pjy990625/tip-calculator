@@ -127,22 +127,6 @@ function Tips({ servers, kitchenStaff }) {
                                         </td>
                                     </tr>
                                 ))}
-
-                                {/* {table.staff.map((member) => (
-                                    <tr key={member.id}>
-                                        <td>{member.name}</td>
-                                        <td>
-                                            <input
-                                                type="number"
-                                                value={member.percentage}
-                                                onChange={(e) => handlePercentageChange(table.id, member.id, e.target.value)}
-                                                min="0"
-                                                max="24"
-                                            />
-                                        </td>
-                                        <td>${calculateIndividualTip(member.percentage)}</td>
-                                    </tr>
-                                ))} */}
                             </tbody>
                         </table>
                     </div>

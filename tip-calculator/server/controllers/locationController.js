@@ -1,6 +1,6 @@
 const pool = require('../db/db');
 
-// Function to get all locations
+// Get all locations
 const getAllLocations = async (req, res) => {
     try {
         const result = await pool.query(
@@ -13,7 +13,7 @@ const getAllLocations = async (req, res) => {
     }
 }
 
-// Function to get the selected location by id
+// Get selected location by id
 const getLocationById = async (req, res) => {
     try {
         const { location_id } = req.query;

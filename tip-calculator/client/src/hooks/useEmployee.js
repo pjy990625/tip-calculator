@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 // Axios function to fetch all servers in selected location
 const fetchServers = async (location_id) => {
-    // const response = await axios.get(`http://localhost:8000/api/${location_id}/servers`);
-    const response = await axios.get(`http://localhost:8000/api/${location_id}/servers`, {
+    const response = await axios.get(`${API_URL}/dashboard/${location_id}/servers`, {
         params: { location_id: location_id } // Pass location_id as a parameter
     });
 
@@ -13,8 +14,7 @@ const fetchServers = async (location_id) => {
 
 // Axios function to fetch all kitchen staff in selected location
 const fetchKitchenStaff = async (location_id) => {
-    // const response = await axios.get(`http://localhost:8000/api/${location_id}/kitchen-staff`);
-    const response = await axios.get(`http://localhost:8000/api/${location_id}/kitchen-staff`, {
+    const response = await axios.get(`${API_URL}/dashboard/${location_id}/kitchen-staff`, {
         params: { location_id: location_id } // Pass location_id as a parameter
     });
 
